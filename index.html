@@ -1,58 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Logistic Regression Prediction</title>
-    <style>
-        body {
-            font-family: Arial;
-            background: #f4f6f8;
-            text-align: center;
-            margin-top: 50px;
-        }
-        input {
-            padding: 8px;
-            margin: 5px;
-            width: 200px;
-        }
-        button {
-            padding: 10px 25px;
-            background: green;
-            color: white;
-            border: none;
-            border-radius: 20px;
-            cursor: pointer;
-        }
-        #result {
-            margin-top: 20px;
-            font-size: 18px;
-        }
-    </style>
+    <title>ML Prediction</title>
 </head>
-
 <body>
 
-<h2>ML Prediction App</h2>
+<h2>Enter 8 Feature Values</h2>
 
-<!-- CHANGE NUMBER OF INPUTS BASED ON YOUR MODEL -->
-<input type="number" id="f1" placeholder="Feature 1"><br>
-<input type="number" id="f2" placeholder="Feature 2"><br>
-<input type="number" id="f3" placeholder="Feature 3"><br>
-<input type="number" id="f4" placeholder="Feature 4"><br>
-<input type="number" id="f5" placeholder="Feature 5"><br>
+<input id="f1" placeholder="Feature 1"><br>
+<input id="f2" placeholder="Feature 2"><br>
+<input id="f3" placeholder="Feature 3"><br>
+<input id="f4" placeholder="Feature 4"><br>
+<input id="f5" placeholder="Feature 5"><br>
+<input id="f6" placeholder="Feature 6"><br>
+<input id="f7" placeholder="Feature 7"><br>
+<input id="f8" placeholder="Feature 8"><br>
 
 <br>
 <button onclick="predict()">Predict</button>
 
-<div id="result"></div>
+<p id="result"></p>
 
 <script>
 function predict() {
     const features = [
-        Number(document.getElementById("f1").value),
-        Number(document.getElementById("f2").value),
-        Number(document.getElementById("f3").value),
-        Number(document.getElementById("f4").value),
-        Number(document.getElementById("f5").value)
+        Number(f1.value),
+        Number(f2.value),
+        Number(f3.value),
+        Number(f4.value),
+        Number(f5.value),
+        Number(f6.value),
+        Number(f7.value),
+        Number(f8.value)
     ];
 
     fetch("/predict", {
@@ -60,14 +39,12 @@ function predict() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ features: features })
     })
-    .then(response => response.json())
+    .then(res => res.json())
     .then(data => {
-        document.getElementById("result").innerHTML =
-            `<b>Prediction:</b> ${data.prediction}<br>
-             <b>Probability:</b> ${data.probability}`;
+        result.innerText = "Prediction: " + data.prediction;
     })
-    .catch(error => {
-        document.getElementById("result").innerHTML = "Error occurred";
+    .catch(() => {
+        result.innerText = "Error occurred";
     });
 }
 </script>
