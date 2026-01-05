@@ -5,7 +5,7 @@ import os
 
 app = Flask(__name__)
 
-MODEL_PATH = os.path.join(os.path.dirname(__file__), "logistic_regression_model.joblib")
+MODEL_PATH = os.path.join(os.getcwd(), "logistic_regression_model.joblib")
 model = joblib.load(MODEL_PATH)
 
 @app.route("/")
@@ -15,10 +15,10 @@ def home():
 @app.route("/predict", methods=["POST"])
 def predict():
     try:
-        data = request.json
+        data = request.get_json()
         features = data["features"]
 
-        features = np.array(features).reshape(1, -1)
+        features = np.array(features, dtype=float).reshape(1, -1)
 
         prediction = int(model.predict(features)[0])
         probability = model.predict_proba(features)[0].tolist()
